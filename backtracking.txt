@@ -1,0 +1,18 @@
+bool Backtracking(int etat) 
+{ 
+	if (etat_est_complet(etat)) 
+		return (True); 
+	for (chaque option possible dans etat) 
+	{
+		appliquerOption(etat, option);
+		if (etatEstValide(etat)) 
+		{ 
+			if (solutionTrouvee(etat)) 
+			{ 
+				return true;
+			}
+		}
+		annulerOption(etat, option);
+	}
+	return false;
+}
