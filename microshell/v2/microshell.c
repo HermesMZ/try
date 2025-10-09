@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   microshell.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zoum <zoum@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mzimeris <mzimeris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 17:14:07 by zoum              #+#    #+#             */
-/*   Updated: 2025/09/23 19:14:32 by zoum             ###   ########.fr       */
+/*   Updated: 2025/10/09 15:23:43 by mzimeris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,13 +115,15 @@ void	execute_command(char **argv, int *i, char *envp[])
 		if (pid == 0) // enfant
 		{
 			if (in_fd != 0)
+			{
 				dup2(in_fd, 0);
-			if (out_fd != 1)
-				dup2(out_fd, 1);
-			if (in_fd != 0)
 				close(in_fd);
+			}
 			if (out_fd != 1)
+			{
+				dup2(out_fd, 1);
 				close(out_fd);
+			}
 			if (has_pipe)
 				close(pipe_fd[0]);
 			execve(argv[start], argv + start, envp);
