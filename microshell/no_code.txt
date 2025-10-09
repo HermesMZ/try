@@ -1,0 +1,113 @@
+FONCTION exec(liste_commandes, variables_environnement)
+    INITIALISER index = 0
+    INITIALISER descripteur_entree_precedent = 0 (stdin par défaut)
+    
+    POUR chaque commande dans liste_commandes:
+        
+        // 1. VÉRIFIER SI C'EST UNE COMMANDE BUILT-IN
+        SI commande.args[0] == "cd":
+            builtin_cd(commande)
+            // Pas de fork, exécution directe dans le processus parent
+            // Le changement de répertoire persiste dans le shell
+        SINON:
+            // 2. CONFIGURATION DES ENTRÉES/SORTIES
+            commande.fd_entree = descripteur_entree_precedent
+            
+            setup_pipe_if_needed(commande, pipe_fd):
+                SI commande a un pipe:
+                    pipe(pipe_fd) // créer un nouveau pipe
+                    SI échec de création:
+                        exit(1) // SORTIR avec erreur
+                    commande.fd_sortie = pipe_fd[1] // extrémité_écriture_du_pipe
+                SINON:
+                    commande.fd_sortie = 1 // stdout
+            
+            // 3. CRÉATION DU PROCESSUS ENFANT
+            execute_command(commande, variables_environnement, pipe_fd):
+                pid = fork()
+                SI échec du fork:
+                    RETOURNER -1
+                
+                SI processus enfant (pid == 0):
+                    SI commande a un pipe:
+                        close(pipe_fd[0]) // fermer extrémité_lecture_du_pipe
+                    
+                    exec_in_child(commande, variables_environnement):
+                    SI commande.fd_sortie != 1:
+                        dup2(commande.fd_sortie, 1) // rediriger stdout
+                        close(commande.fd_sortie)
+                    SI commande.fd_entree != 0:
+                        dup2(commande.fd_entree, 0) // rediriger stdin
+                        close(commande.fd_entree)
+                    execve(commande.args[0], commande.args, variables_environnement)
+                
+                exit(0)
+            
+            SINON (processus parent):
+                RETOURNER pid
+            
+            SI pid == -1:
+                RETOURNER erreur
+            
+            // 4. NETTOYAGE CÔTÉ PARENT
+            handle_parent_cleanup(commande, pipe_fd, &descripteur_entree_precedent):
+                SI commande.fd_sortie != 1:
+                    close(commande.fd_sortie)
+                SI commande.fd_entree != 0:
+                    close(commande.fd_entree)
+                
+                // 5. PRÉPARATION POUR LA PROCHAINE COMMANDE
+                SI commande a un pipe:
+                    *descripteur_entree_precedent = pipe_fd[0] // extrémité_lecture_du_pipe
+                SINON:
+                    *descripteur_entree_precedent = 0 // stdin
+            
+            // 6. GESTION DE L'ORDRE D'EXÉCUTION
+            SI commande n'a PAS de pipe (séparée par ';'):
+                waitpid(pid, &status, 0) // attendre la fin du processus enfant
+                // Cela garantit l'ordre séquentiel pour les commandes ';'
+        
+        index++
+    
+    // 6. ATTENDRE TOUS LES ENFANTS RESTANTS
+    // (Principalement pour les chaînes de pipes)
+    TANT QUE waitpid(-1, &status, 0) > 0:
+        // attendre n'importe quel enfant restant
+    
+    RETOURNER 0 // succès
+
+## Fonctions système utilisées :
+
+### Gestion des commandes built-in :
+- builtin_cd() : exécutée directement dans le processus parent
+- chdir(path) : changement de répertoire système
+
+### Gestion des processus :
+- fork() : créer un processus enfant
+- waitpid(pid, &status, 0) : attendre la fin d'un processus spécifique
+- waitpid(-1, &status, 0) : attendre n'importe quel processus enfant
+- exit(0) : terminer le processus enfant
+
+### Gestion des pipes :
+- pipe(pipe_fd) : créer un pipe (pipe_fd[0] = lecture, pipe_fd[1] = écriture)
+- close(fd) : fermer un file descriptor
+
+### Redirection :
+- dup2(old_fd, new_fd) : dupliquer un file descriptor vers un autre
+- execve(path, args, envp) : remplacer le processus par un nouveau programme
+
+## Logique des commandes :
+- cd : exécutée dans le processus parent (built-in)
+- Autres commandes : exécutées dans des processus enfants
+
+## Logique des pipes :
+- Commande A | Commande B : pipe_fd[1] de A → pipe_fd[0] de B
+- Commande A ; Commande B : A et B sont indépendantes, exécutées séquentiellement
+
+## Gestion de l'ordre :
+- Avec ';' : exécution séquentielle (waitpid immédiat après chaque fork)
+- Avec '|' : exécution en parallèle (waitpid à la fin pour tous les enfants)
+
+## Particularité du cd :
+- cd doit être exécutée dans le processus parent pour que le changement de répertoire persiste
+- Si cd était dans un enfant, seul l'enfant changerait de répertoire, pas le shell
