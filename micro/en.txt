@@ -29,6 +29,3 @@ Don't forget to pass the environment variable to execve
 
 Hints:
 Do not leak file descriptors!
-
-
-./microshell /bin/ls "|" /usr/bin/grep microshell ";" /bin/echo i love my microshell "|" /bin/wc "|" /bin/wc "|" /bin/wc "|" /bin/wc "|" /bin/wc "|" /bin/wc "|" /bin/wc "|" /bin/wc "|" /bin/wc "|" /bin/wc "|" /bin/wc "|" /bin/wc "|" /bin/wc "|" /bin/wc "|" /bin/wc "|" /bin/wc "|" /bin/wc "|" /bin/wc "|" /bin/wc "|" /bin/wc "|" /bin/wc "|" /bin/wc "|" /bin/wc "|" /bin/wc "|" /bin/wc "|" /bin/wc "|" /bin/wc "|" /bin/wc "|" /bin/wc "|" /bin/wc "|" /bin/wc "|" /bin/wc "|" /bin/wc "|" /bin/wc "|" /bin/wc "|" /bin/wc "|" /bin/wc "|" /bin/wc "|" /bin/wc "|" /bin/wc "|" /bin/wc "|" /bin/wc "|" /bin/wc "|" /bin/wc "|" /bin/wc "|" /bin/wc "|" /bin/wc "|" /bin/wc "|" /bin/wc "|" /bin/wc "|" /bin/wc "|" /bin/wc "|" /bin/wc "|" /bin/wc "|" /bin/wc "|" /bin/wc "|" /bin/wc "|" /bin/wc "|" /bin/wc "|" /bin/wc "|" /bin/wc "|" /bin/wc "|" /bin/wc "|" /bin/wc "|" /bin/wc "|" /bin/wc "|" /bin/wc "|" /bin/wc "|" /bin/wc "|" /bin/wc "|" /bin/wc -l 
