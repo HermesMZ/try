@@ -6,7 +6,7 @@
 /*   By: mzimeris <mzimeris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/11 00:30:24 by mzimeris          #+#    #+#             */
-/*   Updated: 2025/10/11 03:16:17 by mzimeris         ###   ########.fr       */
+/*   Updated: 2025/10/29 15:54:46 by mzimeris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,35 @@ int	find_next_pipe(char *argv[], int *i)
 	return (0);
 }
 
+void	clean_child_fd(int out_fd, int in_fd, int pipe_fd[2], int has_pipe)
+{
+	if (out_fd != 1)
+	{
+		dup2(out_fd, 1);
+		close(out_fd);
+	}
+	if (in_fd != 0)
+	{
+		dup2(in_fd, 0);
+		close(in_fd);
+	}
+	if (has_pipe)
+		close(pipe_fd[0]);
+}
+
+void	clean_parent_fd(int *in_fd, int pipe_fd[2], int has_pipe)
+{
+	if (*in_fd != 0)
+		close(*in_fd);
+	if (has_pipe)
+	{
+		close(pipe_fd[1]);
+		*in_fd = pipe_fd[0];
+	}
+	else
+		*in_fd = 0;
+}
+
 int	exec(char *argv[], int *i, char *envp[])
 {
 	int		pipe_fd[2];
@@ -92,33 +121,12 @@ int	exec(char *argv[], int *i, char *envp[])
 			fatal();
 		if (pid == 0)
 		{
-			if (out_fd != 1)
-			{
-				dup2(out_fd, 1);
-				close(out_fd);
-			}
-			if (in_fd != 0)
-			{
-				dup2(in_fd, 0);
-				close(in_fd);
-			}
-			if (has_pipe)
-				close(pipe_fd[0]);
+			clean_child_fd(out_fd, in_fd, pipe_fd, has_pipe);
 			execve(argv[start], argv + start, envp);
 			exec_fail(argv[start]);
 		}
 		if (pid > 0)
-		{
-			if (in_fd != 0)
-				close(in_fd);
-			if (has_pipe)
-			{
-				close(pipe_fd[1]);
-				in_fd = pipe_fd[0];
-			}
-			else
-				in_fd = 0;
-		}
+			clean_parent_fd(&in_fd, pipe_fd, has_pipe);
 	}
 	while (waitpid(-1, NULL, 0) > 0)
 		;
