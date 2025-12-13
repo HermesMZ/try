@@ -1,0 +1,10 @@
+{
+    "C_Cpp.errorSquiggles": "enabled",
+    "C_Cpp.intelliSenseEngine": "default",
+    "C_Cpp.autocomplete": "default",
+    "editor.formatOnSave": false,
+    "files.associations": {
+        "*.h": "c",
+        "life.h": "c"
+    }
+}
