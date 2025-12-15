@@ -6,7 +6,7 @@
 /*   By: mzimeris <mzimeris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 15:52:56 by mzimeris          #+#    #+#             */
-/*   Updated: 2025/12/11 12:55:03 by mzimeris         ###   ########.fr       */
+/*   Updated: 2025/12/11 14:02:47 by mzimeris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	print_bsq(t_bsq *bsq)
 	while (i < bsq->lines)
 	{
 		fprintf(stdout, "%s", bsq->grid[i]);
+		fprintf(stdout, "\n");
 		i++;
 	}
 }
@@ -57,6 +58,7 @@ int	main(int argc, char *argv[])
 			max_square_size = bsq->lines;
 		else
 			max_square_size = bsq->cols;
+		print_bsq(bsq);
 		run_bsq(bsq, max_square_size);
 		free_bsq(bsq);
 		return (0);

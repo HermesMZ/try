@@ -6,7 +6,7 @@
 /*   By: mzimeris <mzimeris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 12:15:35 by mzimeris          #+#    #+#             */
-/*   Updated: 2025/12/11 12:21:12 by mzimeris         ###   ########.fr       */
+/*   Updated: 2025/12/11 14:02:11 by mzimeris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,4 +77,5 @@ void	run_bsq(t_bsq *bsq, int max_square_size)
 		}
 		size--;
 	}
+	print_bsq(bsq);
 }
