@@ -5,32 +5,37 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mzimeris <mzimeris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/17 12:04:14 by mzimeris          #+#    #+#             */
-/*   Updated: 2025/12/19 17:54:56 by mzimeris         ###   ########.fr       */
+/*   Created: 2025/12/20 16:04:53 by mzimeris          #+#    #+#             */
+/*   Updated: 2025/12/20 17:03:58 by mzimeris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "life.h"
 
-void	print_life(t_life *life)
+char	**new_grid(t_life *life)
 {
-	int	i;
-	int	j;
+	unsigned int	i;
+	unsigned int	j;
+	char			**new_grid;
 
 	i = 0;
-	while (life->grid[i])
+	new_grid = calloc(life->height + 1, sizeof(char *));
+	if (!new_grid)
+		return (NULL);
+	while (i < life->height)
 	{
+		new_grid[i] = calloc(life->width + 1, sizeof(char));
+		if (!new_grid[i])
+			return (NULL);
 		j = 0;
-		// while (life->grid[i][j] == ' ')
-		// 	j++;
-		while (life->grid[i][j])
+		while (j < life->width)
 		{
-			putchar(life->grid[i][j]);
+			new_grid[i][j] = ' ';
 			j++;
 		}
-		putchar('\n');
 		i++;
 	}
+	return (new_grid);
 }
 
 void	free_grid(char **grid)
@@ -53,121 +58,105 @@ void	free_life(t_life *life)
 	free(life);
 }
 
-int	read_input(t_life *life)
+void	print_grid(char	**grid)
 {
 	unsigned int	i;
 	unsigned int	j;
-	char			buffer[10000];
+
+	i = 0;
+	while (grid[i])
+	{
+		// printf("%s\n", grid[i]);
+		j = 0;
+		while (grid[i][j])
+		{
+			putchar(grid[i][j]);
+			j++;
+		}
+		putchar('\n');
+		i++;
+	}
+}
+
+void	draw_grid(t_life *life)
+{
 	int				bytes_read;
+	char			buffer[10000];
+	unsigned int	i;
+	unsigned int	j;
 	unsigned int	k;
 	int				draw;
 
+	bytes_read = read(0, &buffer, 10000);
+	if (bytes_read == -1)
+		return ;
+	buffer[bytes_read] = '\0';
 	i = 0;
 	j = 0;
 	k = 0;
 	draw = 0;
-	bytes_read = read(0, &buffer, 10000);
-	if (bytes_read == -1)
-		return (1);
-	buffer[bytes_read] = '\0';
 	while (buffer[k])
 	{
 		if (buffer[k] == 'x')
 		{
-			if (!draw)
-				draw = 1;
-			else
+			if (draw)
 				draw = 0;
+			else
+				draw = 1;
 		}
-		if (buffer[k] == 'w' && i > 0)
-			i--;
-		if (buffer[k] == 's' && i < life->height - 1)
+		if (i < life->height - 1 && buffer[k] == 's')
 			i++;
-		if (buffer[k] == 'a' && j > 0)
+		if (i > 0 && buffer[k] == 'w')
+			i--;
+		if (j > 0 && buffer[k] == 'a')
 			j--;
-		if (buffer[k] == 'd' && j < life->width - 1)
+		if (j < (life->width - 1) && buffer[k] == 'd')
 			j++;
 		if (draw)
 			life->grid[i][j] = 'O';
-		// printf("char : %c, draw : %d, i : %d, j : % d\n", buffer[k], draw, i, j);
 		k++;
 	}
-	return (0);
 }
 
-char	**new_grid(char **grid, int lines, int cols)
-{
-	char	**new_grid;
-	int		i;
-	int		j;
-
-	new_grid = calloc((lines + 1), sizeof(char *));
-	if (!new_grid)
-		return (NULL);
-	new_grid[lines] = NULL;
-	i = 0;
-	while (grid[i])
-	{
-		new_grid[i] = calloc((cols + 1), sizeof(char));
-		if (!new_grid[i])
-			return (free_grid(new_grid), NULL);
-		new_grid[i][cols] = '\0';
-		j = 0;
-		while (j < cols)
-		{
-			new_grid[i][j] = ' ';
-			j++;
-		}
-		i++;
-	}
-	return (new_grid);
-}
-
-int		count_cell(t_life *life, unsigned int line, unsigned int col)
+char	check_cell(t_life *life, unsigned int i, unsigned int j)
 {
 	int	count;
 
 	count = 0;
-	if (line < (life->height - 1) && col > 0 && life->grid[line + 1][col - 1] == 'O')
+	if (i > 0 && life->grid[i - 1][j] == 'O')
 		count++;
-	if (col > 0 && life->grid[line][col - 1] == 'O')
+	if (i > 0 && j > 0 && life->grid[i - 1][j - 1] == 'O')
 		count++;
-	if (line > 0 && col > 0 && life->grid[line -1][col - 1] == 'O')
+	if (i > 0 && j < (life->width - 1) && life->grid[i - 1][j + 1] == 'O')
 		count++;
-	if (line < (life->height - 1) && col < life->width - 1 && life->grid[line + 1][col + 1] == 'O')
+	if (i < (life->height - 1) && j < (life->width - 1) && life->grid[i + 1][j + 1] == 'O')
 		count++;
-	if (col < life->width - 1 && life->grid[line][col + 1] == 'O')
+	if (i < (life->height - 1) && j > 0 && life->grid[i + 1][j - 1] == 'O')
 		count++;
-	if (line > 0 && col < life->width - 1 && life->grid[line - 1][col + 1] == 'O')
+	if (i < (life->height - 1) && life->grid[i + 1][j] == 'O')
 		count++;
-	if (line < (life->height - 1) && life->grid[line + 1][col] == 'O')
+	if (j < (life->width - 1) && life->grid[i][j + 1] == 'O')
 		count++;
-	if (line > 0 && life->grid[line - 1][col] == 'O')
+	if (j > 0 && life->grid[i][j - 1] == 'O')
 		count++;
-	return (count);
-}
-
-char	check_cell(t_life *life, unsigned int line, unsigned int col)
-{
-	int	count;
-
-	count = count_cell(life, line, col);
-	if (life->grid[line][col] == ' ')
+	if (life->grid[i][j] == 'O')
+	{
+		if (count == 2 || count == 3)
+			return ('O');
+		else
+			return (' ');
+	}
+	if (life->grid[i][j] == ' ')
 	{
 		if (count == 3)
 			return ('O');
-		return (' ');
-	}
-	if (life->grid[line][col] == 'O')
-	{
-		if (count < 2 || count > 3)
+		else
 			return (' ');
-		return ('O');
 	}
-	return ('x');
+	return ('X');
 }
 
-char	**iterate(char **new_grid, t_life *life)
+char	**deathlife(t_life *life, char **iteration)
 {
 	unsigned int	i;
 	unsigned int	j;
@@ -178,38 +167,33 @@ char	**iterate(char **new_grid, t_life *life)
 		j = 0;
 		while (j < life->width)
 		{
-			new_grid[i][j] = check_cell(life, i, j);
+			iteration[i][j] = check_cell(life, i, j);
 			j++;
 		}
 		i++;
 	}
-	return (new_grid);
+	return (iteration);
 }
 
-void	run_life(t_life *life)
+void	iterate(t_life *life)
 {
-	char			**grid;
+	char **iteration;
 
 	while (life->iteration > 0)
 	{
-		grid = new_grid(life->grid, life->height, life->width);
-		if (!grid)
+		iteration = new_grid(life);
+		if (!iteration)
 			return ;
-		grid = iterate(grid, life);
-		if (!grid)
-			return ;
+		iteration = deathlife(life, iteration);
 		free_grid(life->grid);
-		life->grid = grid;
+		life->grid = iteration;
 		life->iteration--;
 	}
-	print_life(life);
 }
 
 int	main(int argc, char *argv[])
 {
-	t_life			*life;
-	unsigned int	i;
-	unsigned int	j;
+	t_life	*life;
 
 	if (argc != 4)
 		return (1);
@@ -219,26 +203,12 @@ int	main(int argc, char *argv[])
 	life->width = atoi(argv[1]);
 	life->height = atoi(argv[2]);
 	life->iteration = atoi(argv[3]);
-	life->grid = calloc((life->height + 1), sizeof(char *));
+	life->grid = new_grid(life);
 	if (!life->grid)
-		return (1);
-	i = 0;
-	while (i < life->height)
-	{
-		life->grid[i] = calloc((life->width + 1), sizeof(char));
-		if (!life->grid[i])
-			return (1);
-		j = 0;
-		while (j < life->width)
-		{
-			life->grid[i][j] = ' ';
-			j++;
-		}
-		i++;
-	}
-	if (read_input(life) == 1)
-		return (1);
-	run_life(life);
+		return (free_life(life), 1);
+	draw_grid(life);
+	iterate(life);
+	print_grid(life->grid);
 	free_life(life);
 	return (0);
 }
