@@ -6,7 +6,7 @@
 /*   By: mzimeris <mzimeris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/20 19:45:29 by mzimeris          #+#    #+#             */
-/*   Updated: 2025/12/20 20:22:22 by mzimeris         ###   ########.fr       */
+/*   Updated: 2026/01/07 16:40:40 by mzimeris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,7 @@ bool bigint::operator!=(const bigint& other) {
 	return (this->value != other.value);
 }
 
-std::string bigint::getVal()const
-{
+std::string bigint::getVal()const {
 	return (this->value);
 }
 

@@ -6,7 +6,7 @@
 /*   By: mzimeris <mzimeris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/02 16:36:45 by mzimeris          #+#    #+#             */
-/*   Updated: 2026/01/02 18:03:15 by mzimeris         ###   ########.fr       */
+/*   Updated: 2026/01/09 18:11:14 by mzimeris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ int	check_lines(t_bsq *bsq, FILE *file)
 	size_t	i;
 	char	*line;
 	size_t	len;
-	int		bytes_read;
 
 	bsq->grid = calloc(bsq->lines + 1, sizeof(char *));
 	if (!bsq->grid)
@@ -76,14 +75,11 @@ int	check_lines(t_bsq *bsq, FILE *file)
 	line = NULL;
 	while (i < bsq->lines)
 	{
-		bytes_read = getline(&line, &len, file);
-		if (bytes_read == -1)
-			return (1);
-		printf("line = %s\n", line);
+		getline(&line, &len, file);
 		if (bsq->cols == 0)
 			bsq->cols = ft_strlen(line) - 1;
 		if (bsq->cols != ft_strlen(line) - 1)
-			return (1);
+			return (printf("len error\n"), 1);
 		bsq->grid[i] = ft_strdup(line);
 		if (!bsq->grid[i])
 			return (1);
@@ -97,16 +93,12 @@ int	check_cell(t_bsq *bsq, size_t line, size_t col, size_t size)
 	size_t	i;
 	size_t	j;
 
-	printf("line = %zu, col = %zu, size = %zu, %d, %d\n", line, col, size, bsq->lines, bsq->cols);
-	
 	i = line;
 	while (i < line + size)
 	{
-		printf("check_cell\n");
 		j = col;
 		while (j < col + size)
 		{
-			printf("i = %zu, j = %zu, size = %zu, %d\n", i, j, size,bsq->cols);
 			if (bsq->grid[i][j] == bsq->obstacle)
 				return (1);
 			j++;
@@ -179,19 +171,36 @@ void	run_bsq(t_bsq *bsq)
 
 int	check_in(t_bsq *bsq, FILE *file)
 {
-	if (fscanf(file, "%d %c %c %c\n", &bsq->lines, &bsq->empty, &bsq->obstacle,
-			&bsq->full) != 4)
+	char *line;
+	size_t len;
+
+	line = NULL;
+	len = 0;
+	if (getline(&line, &len, file) == -1)
 		return (1);
+	len = ft_strlen(line);
+	if (line[len - 1] == '\n')
+		len--;
+	if (len < 4)
+		return (1);
+	bsq->empty = line[len - 3];
+	bsq->obstacle = line[len - 2];
+	bsq->full = line[len - 1];
+	if (len == 4)	
+		bsq->lines = line[0] - '0';
+	else
+	{
+		line[len - 3] = '\0';
+		bsq->lines = atoi(line);
+	}
 	if (bsq->lines == 0
 		|| bsq->full == bsq->empty
 		|| bsq->full == bsq->obstacle
 		|| bsq->empty == bsq->obstacle)
 		return (1);
 	if (check_lines(bsq, file) == 1)
-	{
-		print_bsq(bsq);
 		return (1);
-	}
+	printf("check ok\n lines=%d empty=%c obstacle=%c full=%c\n", bsq->lines, bsq->empty, bsq->obstacle, bsq->full);
 	return (0);
 }
 
