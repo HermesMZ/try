@@ -1,0 +1,16 @@
+1.Spot the flaws
+	Act as a recruiter for role. Review my resume below and highlightweak areas, overused buzzwords,and missing metrics. Bebrutally honest.
+2.Rewrite for impact
+	rewrite this resume to sound more results-driven, quantifiable, and compelling for role. Focus on achievements, not just duties.
+3.ATS Boost
+	update this resume to ne fully optimized for Applicant TrackingSystems (ATS) for the role. Use indeustry-specific keywords naturally.
+4.Craft my hook
+	write a powerful, 3-line professional summary that hooks a recruiter in under 10 seconds. Prioritize impact, clarity and value.
+5.Upgrade experience
+	Rephrase the experience section to highlight impact, results, and transferable skills using action verbs and quantifiable outcomes.
+6.Format fix
+	suggest a clean, modern resume for;at that for both humans and ATS. No graphics, no colums. Just structured and effective.
+7.Tailor for the role
+	tailor this resume to fit this specific job description. Highlight matching experience and reword sections to match language used.
+8.Standout cover letter
+	write a compelling cover letter based on this resume andjob description. Keep it personnal, emthousiastic, and under 200 words.

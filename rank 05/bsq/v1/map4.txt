@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 13 . o B
-=======
-50.oB
->>>>>>> ec1f41a (cv)
 oooooooooooo
 oooooooooooo
 oooooooooooo

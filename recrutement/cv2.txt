@@ -1,0 +1,67 @@
+Mathieu Zimeris
+Développeur Full-Stack / Chef de Projet Technique
+📍 Région Parisienne | 📧 mathieu.zimeris@gmail.com | 📞 06 03 02 33 83
+LinkedIn | GitHub
+
+Opticien reconverti en développeur full-stack, alliant 15 ans d’expérience en gestion de projet, analyse des besoins métiers et formation d’équipes, à des compétences techniques, automatisation et infrastructure.
+Expert en pont entre métiers et technique, j’ai piloté la transition numérique d’un magasin mutualiste (formation de 6 collaborateurs, paramétrage d’un logiciel métier, optimisation des processus commerciaux).
+Recherche un poste où mon profil hybride (conception, résolution de problèmes, transmission) aura un impact concret dans des secteurs porteurs de sens (santé, éducation, ESS).
+
+Compétences Clés
+Développement : Docker, C/C++, automatisation de processus, scripts bash, Ruby on Rails, HTML/CSS, JavaScript, SQL.
+Gestion de projet : Analyse des besoins, rédaction de spécifications, coordination d’équipes pluridisciplinaires, formation utilisateurs.
+Soft Skills : Résolution de problèmes, communication interpersonnelle, travail d’équipe, pédagogie, adaptabilité.
+
+Expérience Professionnelle
+Directeur de Magasin Mutualiste – Ecouter Voir (2012–2023)
+
+Déploiement et optimisation d’un logiciel métier :
+Pilotage complet du changement de logiciel de gestion (paramétrage, formation de 6 collaborateurs, adaptation des processus commerciaux), réduisant les erreurs de gestion et améliorant l’efficacité opérationnelle.
+Conception de supports de formation et accompagnement individuel, permettant à l’équipe d’être autonome en 3 mois.
+
+Contribution à l’amélioration d’une plateforme de tiers payant :
+Après le lancement, identification et documentation de plusieurs bugs critiques (ex : erreurs de calcul de remboursement, incohérences de données) lors de la phase de test utilisateur.
+Collaboration avec les équipes techniques pour prioriser et corriger ces bugs, améliorant la fiabilité du système pour les opticiens et la mutuelle.
+
+Amélioration des processus commerciaux :
+Adaptation des techniques de vente aux nouvelles contraintes logicielles,
+
+Opticien Lunetier – Magasins indépendants et franchisés (2008–2012)
+
+Conseil et accompagnement client
+Accompagnement personnalisé des clients pour comprendre leurs besoins réels et leur proposer des solutions optiques adaptées. Mon approche centrée sur l’écoute et la confiance a permis de créer des relations durables avec une clientèle fidèle et satisfaite.
+Coordination et résolution de problèmes
+Animation d’un réseau de partenaires (fournisseurs, mutuelles) pour fluidifier les processus et garantir des délais de livraison optimisés. Mon rôle était de trouver des solutions pragmatiques pour répondre aux attentes des clients et des équipes, tout en maintenant un climat de travail collaboratif.
+Transmission et autonomisation des équipes
+Création de supports pédagogiques clairs et accessibles pour faciliter l’intégration des nouveaux collaborateurs. Mon objectif : rendre chaque membre de l’équipe autonome et confiant dans son travail, en partageant mes connaissances et mon expérience de terrain.
+
+Formations & Projets
+Le Wagon – Bootcamp Développement Web (2023)
+
+Développement d’une application full-stack en Ruby on Rails (We Are Dreamer) : Conception, intégration front/back, déploiement.
+Compétences acquises : MVC, bases de données, API, travail en équipe agile.
+École 42 – Tronc Commun (en cours, fin 2026)
+
+Projets en C/C++, automatisation (scripts, Docker), infrastructure.
+Projet phare : Automatisation complète du déploiement d’une VM avec Docker (gain de 4h par installation).
+BTS Opticien Lunetier – ISO Paris (2008)
+
+Langues & Centres d’intérêt
+
+Français (natif), Anglais (courant).
+Arts martiaux : Pratique du sabre japonais traditionnel (12 ans) – rigueur, persévérance, gestion du stress.
+
+Lettre de Motivation (version courte et percutante)
+Objet : Candidature pour le poste de [Développeur Full-Stack/Chef de Projet Technique]
+Madame, Monsieur,
+Opticien de formation et développeur full-stack par passion, je me reconvertis pour allier mon expertise métier (gestion de projet, analyse des besoins, formation) à mes compétences techniques (Ruby on Rails, automatisation, Docker). Mon parcours unique me permet de comprendre les enjeux métiers tout en proposant des solutions techniques adaptées – comme lors du déploiement d’un logiciel métier, où j’ai formé 6 collaborateurs et optimisé les processus commerciaux.
+Votre entreprise, engagée dans [secteur de l’entreprise, ex : la santé numérique/l’éducation], représente pour moi l’opportunité idéale de mettre mes compétences hybrides au service d’un projet porteur de sens. Je serais ravi d’échanger sur la manière dont mon profil pourrait contribuer à vos défis.
+Disponible pour un entretien, je vous remercie de l’attention portée à ma candidature.
+Cordialement,
+Mathieu Zimeris
+
+Conseils pour le format
+
+Police : Arial ou Calibri, taille 11-12.
+Structure : Titres en gras, puces pour les réalisations, mots-clés en évidence.
+ATS : Évitez les colonnes, graphiques ou images. Utilisez des mots-clés de l’offre d’emploi (ex : "Ruby on Rails", "gestion de projet", "automatisation").

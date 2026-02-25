@@ -6,7 +6,7 @@
 /*   By: mzimeris <mzimeris@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/31 14:40:02 by mzimeris          #+#    #+#             */
-/*   Updated: 2025/08/31 15:25:09 by mzimeris         ###   ########.fr       */
+/*   Updated: 2026/02/16 10:52:22 by mzimeris         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,18 @@ int	check_board(int *board, int value, int index)
 	return (1);
 }
 
+/*
+3 choses à définir :
+1- la condition d'arrêt de la récursion : dans les nqueens, c'est lorsque index == N, c'est à dire qu'on a placé toutes les reines sur le plateau.
+2- la condition de validité : c'est la fonction check_board, qui vérifie si la position actuelle est valide par rapport aux reines déjà placées. (fonction check_board qui vérifie les diagonales et les colonnes)
+3- la récursion : c'est la partie où on place une reine sur le plateau et on appelle récursivement la fonction pour placer la suivante. (dans nqueens, c'est la partie où on place une reine sur le plateau et on appelle récursivement la fonction pour placer la suivante) et surtout ne pas oublier de retirer la reine après l'appel récursif pour explorer d'autres configurations (backtracking).
+*/
+
+/*
+index : représente la colonne sur laquelle on essaie de placer une reine.
+value : représente la ligne sur laquelle on essaie de placer une reine.
+*/
+
 void	nqueens(int *board, int N, int index)
 {
 	int	i;
@@ -38,6 +50,7 @@ void	nqueens(int *board, int N, int index)
 
 	i = 0;
 	value = 0;
+// 1- condition d'arrêt.
 	if (index == N)
 	{
 		while (i < N)
@@ -47,10 +60,14 @@ void	nqueens(int *board, int N, int index)
 	}
 	while (value < N)
 	{
+// 2- condition de validité. Si la valeur est valide :
 		if (check_board(board, value, index))
 		{
+// 3- récursion : on place la reine.
 			board[index] = value;
+// 3- récursion : On appelle récursivement pour la suivante.
 			nqueens(board, N, index + 1);
+// 3- récursion : on retire la reine qu'on vient de placer.
 			board[index] = -1;
 		}
 		value++;
